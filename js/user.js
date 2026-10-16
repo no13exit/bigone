@@ -1,6 +1,8 @@
 
 let nextId = 1;
 
+// Validates user data and creates a user with a unique ID.
+
 function createUser({ name, age, ...otherData }) {
 
     if (!name.trim()) {

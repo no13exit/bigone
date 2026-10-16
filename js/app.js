@@ -1,3 +1,5 @@
+// DOM elements
+
 const form = document.querySelector("#registrationForm");
 const nameInput = document.querySelector("#name");
 const ageInput = document.querySelector("#age");
@@ -11,6 +13,8 @@ const showAdultsButton = document.querySelector("#showAdults");
 
 const manager = createUserManager();
 let currentFilter = "all";
+
+// Render users without modifying the stored data.
 
 function renderUsers(users) {
   userList.replaceChildren();
@@ -34,6 +38,7 @@ function renderUsers(users) {
   });
 }
 
+// Handle registration and display validation errors.
 
 function updateUsers() {
     const users = manager.getUsers();

@@ -12,23 +12,25 @@
   </head>
   <body>
     <main>
-    <h1>User Registration</h1>
+      <h1>User Registration</h1>
 
-    <form id="registrationForm">
-      <input id="name" type="text" placeholder="Name" />
-      <input id="age" type="number" placeholder="Age" />
-      <button type="submit">Register</button>
-    </form>
+      <form id="registrationForm">
+        <input id="name" type="text" placeholder="Name" />
+        // step any is needed to have our js code check for decimal numbers,
+        otherwise it will only allow integers
+        <input id="age" type="number" step="any" placeholder="Age" />
+        <button type="submit">Register</button>
+      </form>
 
-    <p id="errorMessage"></p>
+      <p id="errorMessage"></p>
 
-    <h2>Registered Users</h2>
-    <p>Total users: <span id="userCount">0</span></p>
+      <h2>Registered Users</h2>
+      <p>Total users: <span id="userCount">0</span></p>
 
-    <button id="showAll">Show All</button>
-    <button id="showAdults">Show Adults</button>
+      <button id="showAll">Show All</button>
+      <button id="showAdults">Show Adults</button>
 
-    <ul id="userList"></ul>
-</main>
+      <ul id="userList"></ul>
+    </main>
   </body>
 </html>

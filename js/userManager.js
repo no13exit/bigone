@@ -1,6 +1,4 @@
-
 // Manages users using a private array stored in a closure.
-
 
 function createUserManager() {
   const users = [];
@@ -9,7 +7,7 @@ function createUserManager() {
     users.push(user);
   }
 
-// Returns a copy to prevent changes to the internal array.
+  // Returns a copy to prevent changes to the internal array.
 
   function getUsers() {
     return [...users];
@@ -29,6 +27,6 @@ function createUserManager() {
   return {
     addUser,
     getUsers,
-    deleteUser
+    deleteUser,
   };
 }

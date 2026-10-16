@@ -29,7 +29,7 @@ function renderUsers(users) {
 
     button.addEventListener("click", function () {
       manager.deleteUser(id);
-      updateUsers();;
+      updateUsers();
     });
 
     li.append(button);
@@ -38,24 +38,24 @@ function renderUsers(users) {
   });
 }
 
-// Handle registration and display validation errors.
-
+// Apply the selected filter and update the user counter.
 function updateUsers() {
-    const users = manager.getUsers();
+  const users = manager.getUsers();
 
-    if (currentFilter === "adults") {
-        const adults = users.filter(function(user) {
-            return user.age >= 18;
-        });
+  if (currentFilter === "adults") {
+    const adults = users.filter(function (user) {
+      return user.age >= 18;
+    });
 
-        renderUsers(adults);
-    } else {
-        renderUsers(users);
-    }
+    renderUsers(adults);
+  } else {
+    renderUsers(users);
+  }
 
-    userCount.textContent = users.length;
+  userCount.textContent = users.length;
 }
 
+// Handle registration and display validation errors.
 
 form.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -76,7 +76,7 @@ form.addEventListener("submit", function (event) {
     });
 
     manager.addUser(user);
-    updateUsers();;
+    updateUsers();
 
     console.log("User registered:", user);
 
@@ -89,15 +89,12 @@ form.addEventListener("submit", function (event) {
   }
 });
 
-
-
-
-showAllButton.addEventListener("click", function() {
-    currentFilter = "all";
-    updateUsers();
+showAllButton.addEventListener("click", function () {
+  currentFilter = "all";
+  updateUsers();
 });
 
-showAdultsButton.addEventListener("click", function() {
-    currentFilter = "adults";
-    updateUsers();
+showAdultsButton.addEventListener("click", function () {
+  currentFilter = "adults";
+  updateUsers();
 });

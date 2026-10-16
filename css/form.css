@@ -1,0 +1,59 @@
+
+#registrationForm {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 16px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #1d4ed8;
+}
+
+#errorMessage {
+    color: #dc2626;
+    font-size: 14px;
+}
+
+#userList {
+    list-style: none;
+    padding: 0;
+}
+
+#userList li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+#userList button {
+    background-color: #dc2626;
+}
+
+#userList button:hover {
+    background-color: #b91c1c;
+}
+
+#showAll,
+#showAdults {
+    margin: 5px 5px 10px 0;
+}

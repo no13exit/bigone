@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>User Registration</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/form.css" />
+
+    <script src="js/user.js" defer></script>
+    <script src="js/userManager.js" defer></script>
+    <script src="js/app.js" defer></script>
+  </head>
+  <body>
+    <main>
+    <h1>User Registration</h1>
+
+    <form id="registrationForm">
+      <input id="name" type="text" placeholder="Name" />
+      <input id="age" type="number" placeholder="Age" />
+      <button type="submit">Register</button>
+    </form>
+
+    <p id="errorMessage"></p>
+
+    <h2>Registered Users</h2>
+    <p>Total users: <span id="userCount">0</span></p>
+
+    <button id="showAll">Show All</button>
+    <button id="showAdults">Show Adults</button>
+
+    <ul id="userList"></ul>
+</main>
+  </body>
+</html>

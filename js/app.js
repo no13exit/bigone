@@ -19,6 +19,7 @@ const showAdultsButton = document.querySelector("#showAdults");
 // Application state
 const manager = createUserManager();
 let currentFilter = "all";
+//same flag logic as in some as with fridge draft
 let editingUserId = null;
 
 // Displays messages on the page.

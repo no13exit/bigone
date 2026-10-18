@@ -5,6 +5,8 @@ function createUserManager() {
     let nextId = 1;
 
     function addUser(user) {
+
+        //email should be unique
         const exists = users.some(function(existingUser) {
             return existingUser.email === user.email;
         });

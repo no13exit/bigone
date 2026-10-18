@@ -105,3 +105,19 @@ button {
         align-items: stretch;
     }
 }
+
+
+.stat-card {
+    background-color: #79efd5;
+    color: #25134a;
+    border: 2px solid #25134a;
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+    height: 100%;
+}
+
+.stat-value {
+    font-size: 32px;
+    font-weight: bold;
+}

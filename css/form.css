@@ -1,58 +1,107 @@
+
 #registrationForm {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 16px;
+#registrationForm input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #25134a;
+    border-radius: 8px;
+    font-size: 16px;
 }
 
 button {
-  padding: 10px 16px;
-  background-color: #2563eb;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
-button:hover {
-  background-color: #1d4ed8;
+#submitButton {
+    background-color: #ffe66d;
+    color: #25134a;
+    border: 2px solid #25134a;
+    font-weight: bold;
 }
 
-#errorMessage {
-  color: #dc2626;
-  font-size: 14px;
+#submitButton:hover {
+    background-color: #ffd43b;
+}
+
+#cancelButton {
+    background-color: white;
+    color: #25134a;
+    border: 2px solid #25134a;
+}
+
+#message {
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+#message:empty {
+    display: none;
+}
+
+#message.error {
+    color: #a31639;
+}
+
+#message.success {
+    color: #17583e;
 }
 
 #userList {
-  list-style: none;
-  padding: 0;
+    list-style: none;
+    padding: 0;
 }
 
 #userList li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  padding: 12px;
-  border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    margin-bottom: 8px;
+    background-color: #79efd5;
+    border: 2px solid #25134a;
+    border-radius: 8px;
 }
 
-#userList button {
-  background-color: #dc2626;
+#userList li span {
+    overflow-wrap: anywhere;
 }
 
-#userList button:hover {
-  background-color: #b91c1c;
+.edit-button {
+    background-color: #ffe66d;
+    color: #25134a;
+    border: 2px solid #25134a;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+    border: 2px solid #dc3545;
 }
 
 #showAll,
 #showAdults {
-  margin: 5px 5px 10px 0;
+    background-color: white;
+    color: #25134a;
+    border: 2px solid #25134a;
+}
+
+#showAll.active,
+#showAdults.active {
+    background-color: #25134a;
+    color: #ffe66d;
+}
+
+@media (max-width: 600px) {
+    #userList li {
+        flex-direction: column;
+        align-items: stretch;
+    }
 }

@@ -1,100 +1,193 @@
-// DOM elements
 
+// DOM elements
 const form = document.querySelector("#registrationForm");
 const nameInput = document.querySelector("#name");
+const emailInput = document.querySelector("#email");
 const ageInput = document.querySelector("#age");
-const errorMessage = document.querySelector("#errorMessage");
+
+const submitButton = document.querySelector("#submitButton");
+const cancelButton = document.querySelector("#cancelButton");
+const message = document.querySelector("#message");
+
 const userList = document.querySelector("#userList");
-
 const userCount = document.querySelector("#userCount");
-
 const showAllButton = document.querySelector("#showAll");
 const showAdultsButton = document.querySelector("#showAdults");
 
+// Application state
 const manager = createUserManager();
 let currentFilter = "all";
+let editingUserId = null;
 
-// Render users without modifying the stored data.
+// Displays messages on the page.
+function showMessage(text, isError = false) {
+    message.textContent = text;
+    message.className = isError ? "error" : "success";
+}
 
+// Returns the form to registration mode.
+function resetForm() {
+    form.reset();
+    editingUserId = null;
+
+    submitButton.textContent = "Register";
+    cancelButton.classList.add("d-none");
+}
+
+// Starts editing the selected user.
+function startEditing(user) {
+    editingUserId = user.id;
+
+    nameInput.value = user.name;
+    emailInput.value = user.email;
+    ageInput.value = user.age;
+
+    submitButton.textContent = "Save Changes";
+    cancelButton.classList.remove("d-none");
+
+    showMessage("");
+    nameInput.focus();
+}
+
+// Renders the list of users.
 function renderUsers(users) {
-  userList.replaceChildren();
+    userList.replaceChildren();
 
-  users.forEach(function ({ id, name, age }) {
-    const li = document.createElement("li");
+    users.forEach(function(user) {
+        const { id, name, age, email } = user;
 
-    li.textContent = `${name}, ${age} years old`;
+        const li = document.createElement("li");
 
-    const button = document.createElement("button");
-    button.textContent = "Delete";
+        const userInfo = document.createElement("span");
+        userInfo.textContent = `${name}, ${age} years old - ${email}`;
 
-    button.addEventListener("click", function () {
-      manager.deleteUser(id);
-      updateUsers();
+        const buttons = document.createElement("div");
+        buttons.className = "d-flex gap-2";
+
+        const editButton = document.createElement("button");
+        editButton.textContent = "Edit";
+        editButton.className = "edit-button";
+
+        editButton.addEventListener("click", function() {
+            startEditing(user);
+        });
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.className = "delete-button";
+
+        deleteButton.addEventListener("click", function() {
+            manager.deleteUser(id);
+
+            if (editingUserId === id) {
+                resetForm();
+            }
+
+            updateUsers();
+            showMessage("User deleted successfully");
+
+            console.log("User deleted:", id);
+        });
+
+        buttons.append(editButton, deleteButton);
+        li.append(userInfo, buttons);
+        userList.append(li);
     });
-
-    li.append(button);
-
-    userList.append(li);
-  });
 }
 
-// Apply the selected filter and update the user counter.
+// Applies filters and updates the counter.
 function updateUsers() {
-  const users = manager.getUsers();
+    const users = manager.getUsers();
 
-  if (currentFilter === "adults") {
-    const adults = users.filter(function (user) {
-      return user.age >= 18;
-    });
+    if (currentFilter === "adults") {
+        const adults = users.filter(function(user) {
+            return user.age >= 18;
+        });
 
-    renderUsers(adults);
-  } else {
-    renderUsers(users);
-  }
-
-  userCount.textContent = users.length;
-}
-
-// Handle registration and display validation errors.
-
-form.addEventListener("submit", function (event) {
-  event.preventDefault();
-
-  errorMessage.textContent = "";
-
-  try {
-    const name = nameInput.value;
-    const age = ageInput.value;
-
-    if (age.trim() === "") {
-      throw new Error("Age is required");
+        renderUsers(adults);
+    } else {
+        renderUsers(users);
     }
 
-    const user = createUser({
-      name: name,
-      age: Number(age),
-    });
+    userCount.textContent = users.length;
 
-    manager.addUser(user);
+    showAllButton.classList.toggle("active", currentFilter === "all");
+    showAdultsButton.classList.toggle("active", currentFilter === "adults");
+}
+
+// Handles registration and editing.
+form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    showMessage("");
+
+    try {
+        const userData = createUser({
+            name: nameInput.value,
+            email: emailInput.value,
+            age: ageInput.value
+        });
+
+        if (editingUserId === null) {
+            const user = manager.addUser(userData);
+
+            console.log("User registered:", user);
+            showMessage("User registered successfully");
+        } else {
+            const user = manager.updateUser(editingUserId, userData);
+
+            console.log("User updated:", user);
+            showMessage("User updated successfully");
+        }
+
+        resetForm();
+        updateUsers();
+
+    } catch (error) {
+        console.error(error.message);
+        showMessage(error.message, true);
+
+    } finally {
+        console.log("Registration attempt completed");
+    }
+});
+
+// Cancels editing.
+cancelButton.addEventListener("click", function() {
+    resetForm();
+    showMessage("");
+});
+
+// User list filters
+showAllButton.addEventListener("click", function() {
+    currentFilter = "all";
     updateUsers();
-
-    console.log("User registered:", user);
-
-    form.reset();
-  } catch (error) {
-    console.error(error.message);
-    errorMessage.textContent = error.message;
-  } finally {
-    console.log("Registration attempt completed");
-  }
 });
 
-showAllButton.addEventListener("click", function () {
-  currentFilter = "all";
-  updateUsers();
+showAdultsButton.addEventListener("click", function() {
+    currentFilter = "adults";
+    updateUsers();
 });
 
-showAdultsButton.addEventListener("click", function () {
-  currentFilter = "adults";
-  updateUsers();
+// demo users for testing
+const demoUsers = [
+    { name: "Anna", email: "anna@example.com", age: 28 },
+    { name: "David", email: "david@example.com", age: 15 },
+    { name: "Sarah", email: "sarah@example.com", age: 22 },
+    { name: "Max", email: "max@example.com", age: 12 },
+    { name: "John", email: "john@example.com", age: 35 },
+    { name: "Emma", email: "emma@example.com", age: 17 },
+    { name: "Olivia", email: "olivia@example.com", age: 41 },
+    { name: "Leo", email: "leo@example.com", age: 8 }
+];
+
+demoUsers.forEach(function(userData) {
+    manager.addUser(createUser(userData));
 });
+
+updateUsers();
+
+
+
+// Initial rendering
+updateUsers();

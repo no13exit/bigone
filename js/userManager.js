@@ -1,32 +1,75 @@
-// Manages users using a private array stored in a closure.
 
+// Manages users with private state stored in a closure.
 function createUserManager() {
-  const users = [];
+    const users = [];
+    let nextId = 1;
 
-  function addUser(user) {
-    users.push(user);
-  }
+    function addUser(user) {
+        const exists = users.some(function(existingUser) {
+            return existingUser.email === user.email;
+        });
 
-  // Returns a copy to prevent changes to the internal array.
+        if (exists) {
+            throw new Error("Email already registered");
+        }
 
-  function getUsers() {
-    return [...users];
-  }
+        const newUser = {
+            ...user,
+            id: nextId++
+        };
 
-  // Removes a user by their unique ID.
-  function deleteUser(id) {
-    const index = users.findIndex(function (user) {
-      return user.id === id;
-    });
-
-    if (index !== -1) {
-      users.splice(index, 1);
+        users.push(newUser);
+        return newUser;
     }
-  }
 
-  return {
-    addUser,
-    getUsers,
-    deleteUser,
-  };
+    // Returns copies of users.
+    function getUsers() {
+        return users.map(function(user) {
+            return { ...user };
+        });
+    }
+
+    function deleteUser(id) {
+        const index = users.findIndex(function(user) {
+            return user.id === id;
+        });
+
+        if (index !== -1) {
+            users.splice(index, 1);
+        }
+    }
+
+    // Updates an existing user without changing the ID.
+    function updateUser(id, updatedData) {
+        const index = users.findIndex(function(user) {
+            return user.id === id;
+        });
+
+        if (index === -1) {
+            throw new Error("User not found");
+        }
+
+        const exists = users.some(function(user) {
+            return user.email === updatedData.email && user.id !== id;
+        });
+
+        if (exists) {
+            throw new Error("Email already registered");
+        }
+
+        users[index] = {
+            ...users[index],
+            ...updatedData,
+            id
+        };
+
+        return users[index];
+    }
+
+    return {
+        addUser,
+        getUsers,
+        deleteUser,
+        updateUser
+    };
 }

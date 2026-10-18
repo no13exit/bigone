@@ -2,7 +2,6 @@
 // Manages users with private state stored in a closure.
 function createUserManager() {
     const users = [];
-    let nextId = 1;
 
     function addUser(user) {
 
@@ -17,7 +16,9 @@ function createUserManager() {
 
         const newUser = {
             ...user,
-            id: nextId++
+            id: crypto.randomUUID()
+            // or you can use Date.now() or any other method to generate a unique ID
+            //  id: Date.now().toString()
         };
 
         users.push(newUser);
